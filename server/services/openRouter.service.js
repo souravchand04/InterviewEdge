@@ -1,5 +1,4 @@
 import axios from "axios";
-import { model } from "mongoose";
 
 export const askAi = async (message) => {
     try {

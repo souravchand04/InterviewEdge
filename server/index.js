@@ -13,7 +13,13 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+const configuredOrigins = (process.env.CLIENT_URLS || process.env.CLIENT_URL || "")
+    .split(",")
+    .map((origin) => origin.trim())
+    .filter(Boolean);
+
 const allowedOrigins = [
+    ...configuredOrigins,
     'https://ai-interview-agent-client-bgax.onrender.com',
     'https://ai-interview-agent-1-0h0w.onrender.com',
     'http://localhost:5173',
@@ -37,19 +43,29 @@ app.use(cors({
 app.use(express.json());
 app.use(cookieParser());
 
-app.use("/api/auth", authRouter);
-app.use("/api/user", userRouter);  
-app.use("/api/interview", interviewRouter); 
-app.use("/api/payment", PaymentRouter); 
+let dbConnectionPromise;
+
+const ensureDbConnected = async (req, res, next) => {
+    try {
+        dbConnectionPromise ??= connectDB();
+        await dbConnectionPromise;
+        next();
+    } catch (error) {
+        console.error("Database connection failed:", error);
+        dbConnectionPromise = undefined;
+        return res.status(500).json({ message: "Database connection failed" });
+    }
+};
 
 app.get('/', (req, res) => {
     res.send('API is running successfully on Vercel!');
 });
 
-// Connect to DB immediately (needed for serverless)
-connectDB().catch(err => {
-    console.error("Database connection failed on startup:", err);
-});
+app.use("/api", ensureDbConnected);
+app.use("/api/auth", authRouter);
+app.use("/api/user", userRouter);  
+app.use("/api/interview", interviewRouter); 
+app.use("/api/payment", PaymentRouter); 
 
 // Only listen when running locally (not on Vercel)
 if (process.env.VERCEL !== '1') {

@@ -104,6 +104,10 @@ const configureMongoSrvDns = async (uri) => {
 
 const connectDb = async () => {
   try {
+    if (mongoose.connection.readyState === 1) {
+      return mongoose.connection;
+    }
+
     await configureMongoSrvDns(process.env.MONGODB_URL);
     const connectionInstance = await mongoose.connect(
       buildMongoUri(process.env.MONGODB_URL, DB_NAME)
