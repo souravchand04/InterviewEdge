@@ -1,5 +1,5 @@
 import express from 'express';
-import connectDB from './config/connectDB.js';
+import connectDB from './config/connectDb.js';
 import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
@@ -42,7 +42,15 @@ app.use("/api/user", userRouter);
 app.use("/api/interview", interviewRouter); 
 app.use("/api/payment", PaymentRouter); 
 
-app.listen(PORT, () => {
-    console.log(`Server running on PORT ${PORT}`);
-    connectDB();
-});
+// Connect to DB immediately (needed for serverless)
+connectDB();
+
+// Only listen when running locally (not on Vercel)
+if (process.env.VERCEL !== '1') {
+    app.listen(PORT, () => {
+        console.log(`Server running on PORT ${PORT}`);
+    });
+}
+
+// Export for Vercel serverless
+export default app;
