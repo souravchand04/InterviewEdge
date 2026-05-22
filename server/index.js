@@ -42,6 +42,10 @@ app.use("/api/user", userRouter);
 app.use("/api/interview", interviewRouter); 
 app.use("/api/payment", PaymentRouter); 
 
+app.get('/', (req, res) => {
+    res.send('API is running successfully on Vercel!');
+});
+
 // Connect to DB immediately (needed for serverless)
 connectDB();
 
