@@ -47,7 +47,9 @@ app.get('/', (req, res) => {
 });
 
 // Connect to DB immediately (needed for serverless)
-connectDB();
+connectDB().catch(err => {
+    console.error("Database connection failed on startup:", err);
+});
 
 // Only listen when running locally (not on Vercel)
 if (process.env.VERCEL !== '1') {
