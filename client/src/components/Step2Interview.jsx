@@ -28,6 +28,7 @@ function Step2Interview({interviewData, onFinish}) {
   const videoRef = useRef(null);
   const { transcript, listening, resetTranscript, browserSupportsSpeechRecognition } = useSpeechRecognition();
   const transcriptRef = useRef("");
+  const lastRestartRef = useRef(0);
 
   useEffect(() => {
     transcriptRef.current = transcript;
@@ -90,6 +91,28 @@ function Step2Interview({interviewData, onFinish}) {
   }, [])
 
   const videoSource = (voiceGender === "male") ? maleVideo : femaleVideo;
+
+  const commitTranscript = () => {
+    const currentTranscript = transcriptRef.current;
+    if (currentTranscript) {
+      setAnswer(prev => prev ? prev + " " + currentTranscript : currentTranscript);
+      resetTranscript();
+      transcriptRef.current = "";
+    }
+  };
+
+  const startMic = () => {
+    if (!aiPlayingRef.current) {
+      commitTranscript();
+      SpeechRecognition.startListening({ continuous: true, language: 'en-US' })
+        .catch(err => console.error("startListening failed:", err));
+    }
+  };
+
+  const stopMic = () => {
+    commitTranscript();
+    SpeechRecognition.stopListening();
+  };
 
   // ---------- Speak Function ------------- //
   const speakText = (text) => {
@@ -197,15 +220,6 @@ function Step2Interview({interviewData, onFinish}) {
 
   // Native speech setup replaced with react-speech-recognition
 
-  const commitTranscript = () => {
-    const currentTranscript = transcriptRef.current;
-    if (currentTranscript) {
-      setAnswer(prev => prev ? prev + " " + currentTranscript : currentTranscript);
-      resetTranscript();
-      transcriptRef.current = "";
-    }
-  };
-
   const wasListeningRef = useRef(false);
   
   useEffect(() => {
@@ -217,24 +231,15 @@ function Step2Interview({interviewData, onFinish}) {
   }, [listening]);
 
   useEffect(() => {
-    // Auto-restart if it's supposed to be on but stopped listening
     if (isMicOn && !isAIPlaying && !listening && !isSubmitting && !isIntroPhase) {
+      const now = Date.now();
+      if (now - lastRestartRef.current < 1500) return;
+      lastRestartRef.current = now;
       console.log("Auto-restarting speech recognition...");
-      SpeechRecognition.startListening({ continuous: true, language: 'en-US' });
+      SpeechRecognition.startListening({ continuous: true, language: 'en-US' })
+        .catch(err => console.error("Auto-restart startListening failed:", err));
     }
   }, [isMicOn, isAIPlaying, listening, isSubmitting, isIntroPhase]);
-
-  const startMic = () => {
-    if (!aiPlayingRef.current) {
-      commitTranscript();
-      SpeechRecognition.startListening({ continuous: true, language: 'en-US' });
-    }
-  };
-
-  const stopMic = () => {
-    commitTranscript();
-    SpeechRecognition.stopListening();
-  };
 
   const toggleMic = () => {
     if (isMicOn) {
@@ -383,6 +388,11 @@ useEffect(() => {
           value={transcript ? (answer ? answer + " " + transcript : transcript) : answer}
           placeholder='Type your answer here...'
           className='flex-1 bg-gray-100 p-4 sm:p-6 rounded-2xl resize-none outline-none border border-gray-200 focus:ring-2 focus:ring-emerald-500 transition text-gray-800'></textarea>
+          {!browserSupportsSpeechRecognition && (
+            <div className='mt-6 bg-red-50 border border-red-200 text-red-700 text-sm p-3 rounded-xl'>
+              Speech recognition is not supported in this browser. Please use Chrome or Edge with HTTPS.
+            </div>
+          )}
           {!feedback ? (<div className='flex items-center gap-4 mt-6'>
             <motion.div 
             onClick={toggleMic}
