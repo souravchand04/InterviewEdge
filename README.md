@@ -176,14 +176,18 @@ AI-Interview-Agent, also shown in the UI as **InterviewEdge**, is a full-stack w
 ## 🌍 Environment Variables
 
 ### Server (.env)
+- RAZORPAY_KEY_ID=your_razorpay_key_id
+- RAZORPAY_KEY_SECRET=your_razorpay_key_secret
+- OPENROUTER_API_KEY=your_openrouter_api_key
+- JWT_SECRET_KEY=your_jwt_secret_key
+- DB_NAME=interview_edge
+- MONGODB_URL=your_mongodb_connection_string
 - PORT=5000
-- MONGO_URI=your_mongodb_uri
-- JWT_SECRET_KEY=your_secret_key
-- OPENROUTER_API_KEY=your_api_key
 
 ### Client (.env)
 - VITE_FIREBASE_APIKEY=your_firebase_key
-- VITE_API_BASE_URL=http://localhost:5000
+- VITE_RAZORPAY_KEY_ID=your_razorpay_key_id
+- VITE_SERVER_URL=http://localhost:5000
 
 
 ⚠️ Don’t push real keys to GitHub. Always use placeholders.
@@ -319,5 +323,5 @@ Add your license here
 ## 👤 Author
 
 Akash Chawla  
-[GitHub](https://github.com/MidnightDev024)  
-[LinkedIn](https://www.linkedin.com/in/akash-chawla-81008734b/)
+[GitHub](https://github.com/souravchand04)  
+[LinkedIn](https://www.linkedin.com/in/souravchandjs/)
