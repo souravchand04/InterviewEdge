@@ -53,16 +53,16 @@ function Auth({isModel = false}) {
           <div className='bg-black text-white p-2 rounded-lg'>
             <FaRobot size={18} />
           </div>
-          <h2 className='font-semibold text-lg'>EvalAI</h2>  
+          <h2 className='font-semibold text-lg'>InterviewEdge</h2>  
         </div>    
-        <h1 className='text-2xl md:text-3xl font-semibold text-center leading-snug mb-4'>Continue with EvalAI{" "}
+        <h1 className='text-2xl md:text-3xl font-semibold text-center leading-snug mb-4'>Continue with InterviewEdge{" "}
           <span className='bg-green-100  text-green-600 px-3 py-1 rounded-full inline-flex items-center gap-2'>
             <IoSparkles size={16} />
             AI Smart Interview
           </span>
         </h1>
         <p className='text-gray-500 text-center text-sm md:text-base leading-relaxed mb-8'>
-          Sign in to your EvalAI account to access your personalized dashboard, AI powered mock interviews, track your progress, and and unlock detailed performance insights. 
+          Sign in to your InterviewEdge account to access your personalized dashboard, AI powered mock interviews, track your progress, and and unlock detailed performance insights. 
         </p>
         <motion.button 
         onClick={handleGoogleAuth}

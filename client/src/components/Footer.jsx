@@ -9,7 +9,7 @@ const Footer = () => {
                     <div className='bg-black text-white p-2 rounded-lg'>
                         <BsRobot size={20} />
                     </div> 
-                    <h2 className='font-semibold'>EvalAI</h2>
+                    <h2 className='font-semibold'>InterviewEdge</h2>
                 </div>
                 <p className='text-gray-500 text-sm max-w-xl mx-auto'>
                     AI-powerd interview preparation platform designed to improve communication skills, technical depth and professional confidence

@@ -1,6 +1,6 @@
-# 🤖 AI-Interview-Agent (EvalAI)
+# 🤖 AI-Interview-Agent (InterviewEdge)
 
-AI-Interview-Agent, also shown in the UI as **EvalAI**, is a full-stack web application that helps you practice interviews in a realistic way. It uses AI to generate questions, lets you answer using your voice, and gives you detailed feedback on how you performed.
+AI-Interview-Agent, also shown in the UI as **InterviewEdge**, is a full-stack web application that helps you practice interviews in a realistic way. It uses AI to generate questions, lets you answer using your voice, and gives you detailed feedback on how you performed.
 
 ---
 
