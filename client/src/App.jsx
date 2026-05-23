@@ -11,7 +11,7 @@ import InterviewHistory from './pages/InterviewHistory.jsx'
 import Pricing from './pages/Pricing.jsx'
 import InterviewReport from './pages/InterviewReport.jsx'
 
-export const serverURL = import.meta.env.VITE_SERVER_URL || ""
+export const serverURL = (import.meta.env.VITE_SERVER_URL || "").replace(/\/$/, "")
 
 function App() {
 
