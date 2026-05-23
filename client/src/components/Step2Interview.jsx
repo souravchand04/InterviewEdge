@@ -139,6 +139,7 @@ function Step2Interview({interviewData, onFinish}) {
 
         utterance.onstart = () => {
           setIsAIPlaying(true);
+          aiPlayingRef.current = true;
           stopMic();
           videoRef.current?.play();
         };
@@ -146,7 +147,8 @@ function Step2Interview({interviewData, onFinish}) {
         utterance.onend = () => {
           videoRef.current?.pause();
           videoRef.current.currentTime = 0;
-          setIsAIPlaying(false)
+          setIsAIPlaying(false);
+          aiPlayingRef.current = false;
 
           if (isMicOn) {
             startMic();
@@ -231,7 +233,7 @@ function Step2Interview({interviewData, onFinish}) {
   }, [listening]);
 
   useEffect(() => {
-    if (isMicOn && !isAIPlaying && !listening && !isSubmitting && !isIntroPhase) {
+    if (isMicOn && !isAIPlaying && !listening && !isSubmitting && !isIntroPhase && !aiPlayingRef.current) {
       const now = Date.now();
       if (now - lastRestartRef.current < 1500) return;
       lastRestartRef.current = now;
