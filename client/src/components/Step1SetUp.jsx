@@ -60,6 +60,10 @@ const Step1SetUp = ({onStart}) => {
   }
 
   const handleStart = async () => {
+    if (userData && userData.credits < 50) {
+      alert("Insufficient credits. You need at least 50 credits to start an interview. Please upgrade your plan.");
+      return;
+    }
     setLoading(true);
     try {
       const result = await axios.post(serverURL + "/api/interview/generate-questions", 
@@ -250,9 +254,18 @@ const Step1SetUp = ({onStart}) => {
                 </motion.div>
               )}
 
+              {userData && userData.credits < 50 && (
+                <motion.p
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className='text-center text-sm text-red-500 font-medium'>
+                  Low credits ({userData.credits}). You need at least 50 to start an interview.
+                </motion.p>
+              )}
+
               <motion.button 
               onClick={handleStart}
-              disabled={!role || !experience || loading}
+              disabled={!role || !experience || loading || (userData && userData.credits < 50)}
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.95 }}
               className='w-full disabled:bg-gray-600 bg-green-600 hover:bg-green-700 text-white py-3 rounded-full text-lg font-semibold transition duration-300 shadow-md'>
