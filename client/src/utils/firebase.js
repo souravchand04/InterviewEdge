@@ -8,11 +8,12 @@ import { GoogleAuthProvider } from "firebase/auth";
 // Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_APIKEY,
-  authDomain: "socialbit-96f87.firebaseapp.com",
-  projectId: "socialbit-96f87",
-  storageBucket: "socialbit-96f87.firebasestorage.app",
-  messagingSenderId: "1009516787282",
-  appId: "1:1009516787282:web:b22269846028951f8f118b"
+  authDomain: "interviewedge-500cb.firebaseapp.com",
+  projectId: "interviewedge-500cb",
+  storageBucket: "interviewedge-500cb.firebasestorage.app",
+  messagingSenderId: "289219072280",
+  appId: "1:289219072280:web:2ff04bdd85f90da8c40e6d",
+  measurementId: "G-3QTZ767D0Z"
 };
 
 // Initialize Firebase
